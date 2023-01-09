@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+import AdminPanel from "../layouts/AdminPanel";
 import Main from "../layouts/Main";
-import Dashboard from "../pages/Dashboard/Dashboard";
 import Login from "../pages/Login/Login/Login";
 import Register from "../pages/Login/Register/Register";
 import MyCart from "../pages/MyCart/MyCart";
@@ -19,10 +19,7 @@ export const router = createBrowserRouter([
             path: "/myCart",
             element: <MyCart />,
          },
-         {
-            path: "/dashboard",
-            element: <Dashboard />,
-         },
+
          {
             path: "/login",
             element: <Login />,
@@ -32,5 +29,9 @@ export const router = createBrowserRouter([
             element: <Register />,
          },
       ],
+   },
+   {
+      path: "/admin",
+      element: <AdminPanel />,
    },
 ]);

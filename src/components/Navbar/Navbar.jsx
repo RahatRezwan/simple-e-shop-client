@@ -10,7 +10,7 @@ const Navbar = () => {
       { id: 3, menu: "Login", link: "/login" },
    ];
    const loginMenuItems = [
-      { id: 3, menu: "Dashboard", link: "/dashboard" },
+      { id: 3, menu: "Admin", link: "/admin" },
       { id: 1, menu: "Shop", link: "/" },
       { id: 2, menu: "MyCart", link: "/myCart" },
       { id: 4, menu: "Logout" },

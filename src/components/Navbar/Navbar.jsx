@@ -35,7 +35,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu */}
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end block lg:hidden">
                <label tabIndex={0} className="btn btn-ghost btn-circle">
                   <svg
                      xmlns="http://www.w3.org/2000/svg"

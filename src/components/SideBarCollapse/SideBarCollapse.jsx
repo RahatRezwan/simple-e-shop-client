@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const SideBarCollapse = () => {
    return (
-      <div className="flex flex-col gap-5 items-center min-h-screen">
+      <div className="flex flex-col justify-start gap-5 items-start min-h-screen">
          <label
             htmlFor="Sidebar"
             className="drawer-button cursor-pointer tooltip tooltip-right mb-5"
@@ -16,14 +16,14 @@ const SideBarCollapse = () => {
             <img src={collapse} alt="" className="rotate-180" />
          </label>
 
-         <Link className="tooltip tooltip-right" data-tip="All Users">
+         <Link to="/admin/allUsers" className="tooltip tooltip-right" data-tip="All Users">
             <img src={alluser} alt="" />
          </Link>
 
-         <Link className="tooltip tooltip-right" data-tip="Add Users">
+         <Link to="/admin/addUser" className="tooltip tooltip-right" data-tip="Add Users">
             <img src={addUser} alt="" />
          </Link>
-         <Link className="tooltip tooltip-right" data-tip="Add Product">
+         <Link to="/admin/addProduct" className="tooltip tooltip-right" data-tip="Add Product">
             <img src={addProduct} alt="" />
          </Link>
       </div>

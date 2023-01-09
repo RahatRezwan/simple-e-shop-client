@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 
 const Navbar = () => {
-   const { user } = useContext(AuthContext);
+   const { user, logoutAUser } = useContext(AuthContext);
    const menuItems = [
       { id: 1, menu: "Shop", link: "/" },
       { id: 2, menu: "MyCart", link: "/myCart" },
@@ -13,10 +13,9 @@ const Navbar = () => {
       { id: 3, menu: "Admin", link: "/admin" },
       { id: 1, menu: "Shop", link: "/" },
       { id: 2, menu: "MyCart", link: "/myCart" },
-      { id: 4, menu: "Logout" },
    ];
 
-   const menus = user.uid ? loginMenuItems : menuItems;
+   const menus = user?.uid ? loginMenuItems : menuItems;
    return (
       <div>
          <nav className="navbar bg-base-100">
@@ -34,6 +33,13 @@ const Navbar = () => {
                         <Link to={item.link && item.link}>{item.menu}</Link>
                      </li>
                   ))}
+                  {user?.uid && (
+                     <li>
+                        <button onClick={logoutAUser} className="btn btn-ghost">
+                           Logout
+                        </button>
+                     </li>
+                  )}
                </ul>
             </div>
 
@@ -64,6 +70,11 @@ const Navbar = () => {
                         <Link to={item.link && item.link}>{item.menu}</Link>
                      </li>
                   ))}
+                  {user?.uid && (
+                     <li>
+                        <button onClick={logoutAUser}>Logout</button>
+                     </li>
+                  )}
                </ul>
             </div>
          </nav>

@@ -22,10 +22,10 @@ const SideBarExpand = () => {
          </div>
          <Link className=""></Link>
          <div tabIndex={0} className="collapse collapse-arrow">
-            <div className="collapse-title flex items-center gap-2">
+            <Link to="/admin/allUsers" className="collapse-title flex items-center gap-2">
                <img src={alluser} alt="" />
                All Users
-            </div>
+            </Link>
             <div className="w-full collapse-content text-end">
                <li className="cursor-pointer">Users Sub Menu-1</li>
                <li className="cursor-pointer">Users Sub Menu-2</li>

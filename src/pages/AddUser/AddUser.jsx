@@ -1,16 +1,12 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
-import { AuthContext } from "../../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
 
-const Register = () => {
-   const { createAUser, updateAUser } = useContext(AuthContext);
-   const [passwordError, setPasswordError] = useState("");
+const AddUser = () => {
    const [loader, setLoader] = useState(false);
-
    const {
       register,
       handleSubmit,
@@ -21,7 +17,6 @@ const Register = () => {
    const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    const handleRegister = (data, event) => {
-      setPasswordError("");
       setLoader(true);
       const form = event.target;
       const fullName = data.firstName + " " + data.lastName;
@@ -29,11 +24,6 @@ const Register = () => {
       const profileImg = data.profilePic[0];
       const formData = new FormData();
       formData.append("image", profileImg);
-      if (data.password !== data.confirmPass) {
-         setPasswordError("Password doesn't match!");
-         setLoader(false);
-         return;
-      }
 
       /* Host Image to imgBB */
       axios
@@ -43,38 +33,23 @@ const Register = () => {
                profilePic: imgResponse.data.data.url,
                name: fullName,
                email: data.email,
+               role: data.role,
+               plan: data.plan,
             };
 
-            /* Crete a user */
-            createAUser(data.email, data.password)
-               .then((result) => {
-                  /* update a user info */
-                  updateAUser(user.name, user.profilePic)
-                     .then(() => {
-                        /* save user to db */
-                        axios
-                           .post("https://e-shop-server-six.vercel.app/users", user)
-                           .then((response) => {
-                              if (response.data.acknowledged) {
-                                 setLoader(false);
-                                 form.reset();
-                                 toast.success("Account Created Successfully");
-                                 navigate("/");
-                              }
-                           })
-                           .catch((error) => {
-                              setLoader(false);
-                              console.log(error);
-                           });
-                     })
-                     .catch((error) => {
-                        setLoader(false);
-                        toast.error(error.code.slice(5));
-                     });
+            axios
+               .post("https://e-shop-server-six.vercel.app/users", user)
+               .then((response) => {
+                  if (response.data.acknowledged) {
+                     setLoader(false);
+                     form.reset();
+                     toast.success("User Created Successfully");
+                     navigate("/admin/allusers");
+                  }
                })
                .catch((error) => {
                   setLoader(false);
-                  toast.error(error.code.slice(5));
+                  console.log(error);
                });
          })
          .catch((error) => {
@@ -85,7 +60,7 @@ const Register = () => {
 
    return (
       <div className="w-[85%] md:w-[50%] xl:w-[33%] mx-auto border border-primary rounded-md p-7 my-16">
-         <h1 className="text-4xl mb-4 text-center font-bold">Register</h1>
+         <h1 className="text-4xl mb-4 text-center font-bold">Add User</h1>
          <form onSubmit={handleSubmit(handleRegister)} className="">
             <div className="form-control">
                <label className="label">
@@ -136,52 +111,40 @@ const Register = () => {
 
             <div className="form-control">
                <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="label-text">Choose Role</span>
                </label>
-               <input
-                  type="password"
-                  placeholder="Password"
-                  className={`input input-bordered ${
-                     (errors?.password || passwordError) && "input-error"
-                  }`}
-                  {...register("password", {
-                     required: "Password is required",
-                     minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters long",
-                     },
-                  })}
-               />
-               <p className="text-red-500">{errors.password?.message || passwordError}</p>
+               <select
+                  defaultValue="Editor"
+                  className="select select-bordered w-full"
+                  {...register("role")}
+               >
+                  <option>Editor</option>
+                  <option>Author</option>
+                  <option>Maintainer</option>
+               </select>
             </div>
 
             <div className="form-control">
                <label className="label">
-                  <span className="label-text">Confirm Password</span>
+                  <span className="label-text">Choose Plan</span>
                </label>
-               <input
-                  type="password"
-                  placeholder="Password"
-                  className={`input input-bordered ${
-                     (errors?.confirmPass || passwordError) && "input-error"
-                  }`}
-                  {...register("confirmPass", { required: "Password is required" })}
-               />
-               <p className="text-red-500">{errors.confirmPass?.message || passwordError}</p>
+               <select
+                  defaultValue="Company"
+                  className="select select-bordered w-full"
+                  {...register("plan")}
+               >
+                  <option>Company</option>
+                  <option>Enterprise</option>
+                  <option>Team</option>
+               </select>
             </div>
 
-            <button className="btn btn-primary w-full">
-               {loader ? <SmallSpinner /> : "Register"}
+            <button className="btn btn-primary w-full mt-3">
+               {loader ? <SmallSpinner /> : "Add User"}
             </button>
          </form>
-         <p className="text-center my-3">
-            Already have an account?{" "}
-            <Link to={"/login"} className="text-primary">
-               Login
-            </Link>
-         </p>
       </div>
    );
 };
 
-export default Register;
+export default AddUser;

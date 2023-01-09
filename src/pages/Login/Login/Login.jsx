@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 
 const Login = () => {
-   const { loginAUser, loading, setLoading } = useContext(AuthContext);
+   const { loginAUser, setLoading } = useContext(AuthContext);
    const [loginError, setLoginError] = useState("");
-   const [loginUserEmail, setLoginUserEmail] = useState("");
    const {
       register,
       handleSubmit,
@@ -20,6 +20,27 @@ const Login = () => {
    const handleLogin = (data, event) => {
       setLoginError("");
       const form = event.target;
+      loginAUser(data.email, data.password)
+         .then((result) => {
+            form.reset();
+            toast.success("Login Successfully");
+            navigate(from, { replace: true });
+         })
+         .catch((err) => {
+            const error = err.code.slice(5);
+
+            if (error === "user-not-found") {
+               const errMsg = "User Not Found";
+               toast.error(errMsg);
+               setLoginError(errMsg);
+            }
+            if (error === "wrong-password") {
+               const errMsg = "Your password is incorrect";
+               toast.error(errMsg);
+               setLoginError(errMsg);
+            }
+            setLoading(false);
+         });
    };
 
    return (

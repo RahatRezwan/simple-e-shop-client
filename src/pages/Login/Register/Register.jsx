@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import SmallSpinner from "../../../components/SmallSpinner/SmallSpinner";
+import { AuthContext } from "../../../context/AuthProvider";
 
 const Register = () => {
+   const { createAUser, updateAUser } = useContext(AuthContext);
    const [passwordError, setPasswordError] = useState("");
    const [loader, setLoader] = useState(false);
+
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm();
+
+   const navigate = useNavigate();
+   const imgHostKey = process.env.REACT_APP_imgbb_key;
 
    const handleRegister = (data, event) => {
       setPasswordError("");
@@ -25,6 +34,53 @@ const Register = () => {
          setLoader(false);
          return;
       }
+
+      /* Host Image to imgBB */
+      axios
+         .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
+         .then((imgResponse) => {
+            const user = {
+               profilePic: imgResponse.data.data.url,
+               name: fullName,
+               email: data.email,
+            };
+
+            /* Crete a user */
+            createAUser(data.email, data.password)
+               .then((result) => {
+                  /* update a user info */
+                  updateAUser(user.name, user.profilePic)
+                     .then(() => {
+                        /* save user to db */
+                        axios
+                           .post("https://e-shop-server-six.vercel.app/users", user)
+                           .then((response) => {
+                              if (response.data.acknowledged) {
+                                 setLoader(false);
+                                 form.reset();
+                                 toast.success("Account Created Successfully");
+                                 navigate("/");
+                              }
+                           })
+                           .catch((error) => {
+                              setLoader(false);
+                              console.log(error);
+                           });
+                     })
+                     .catch((error) => {
+                        setLoader(false);
+                        toast.error(error.code.slice(5));
+                     });
+               })
+               .catch((error) => {
+                  setLoader(false);
+                  toast.error(error.code.slice(5));
+               });
+         })
+         .catch((error) => {
+            setLoader(false);
+            toast.error(error);
+         });
    };
 
    return (
@@ -115,8 +171,7 @@ const Register = () => {
             </div>
 
             <button className="btn btn-primary w-full">
-               {/* {loader ? <SmallSpinner /> : "Register"} */}
-               Register
+               {loader ? <SmallSpinner /> : "Register"}
             </button>
          </form>
          <p className="text-center my-3">

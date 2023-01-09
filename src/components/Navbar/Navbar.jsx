@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-
-const menuItems = [
-   { id: 1, menu: "Shop", link: "/" },
-   { id: 1, menu: "MyCart", link: "/myCart" },
-   { id: 1, menu: "Dashboard", link: "/dashboard" },
-];
+import { AuthContext } from "../../context/AuthProvider";
 
 const Navbar = () => {
+   const { user } = useContext(AuthContext);
+   const menuItems = [
+      { id: 1, menu: "Shop", link: "/" },
+      { id: 2, menu: "MyCart", link: "/myCart" },
+      { id: 3, menu: "Login", link: "/login" },
+   ];
+   const loginMenuItems = [
+      { id: 3, menu: "Dashboard", link: "/dashboard" },
+      { id: 1, menu: "Shop", link: "/" },
+      { id: 2, menu: "MyCart", link: "/myCart" },
+      { id: 4, menu: "Logout" },
+   ];
+
+   const menus = user.uid ? loginMenuItems : menuItems;
    return (
       <div>
          <nav className="navbar bg-base-100">
@@ -16,21 +25,15 @@ const Navbar = () => {
             </div>
 
             <div className="flex-none gap-2">
-               <div className="form-control">
+               <div className="form-control hidden md:block">
                   <input type="text" placeholder="Search" className="input input-bordered" />
                </div>
-               <ul className="flex items-center">
-                  {menuItems.map((item) => (
+               <ul className="hidden lg:flex items-center">
+                  {menus.map((item) => (
                      <li key={item.id} className="btn btn-ghost">
-                        <Link to={item.link}>{item.menu}</Link>
+                        <Link to={item.link && item.link}>{item.menu}</Link>
                      </li>
                   ))}
-                  <li className="btn btn-ghost">
-                     <Link to="/login">Login</Link>
-                  </li>
-                  <li className="btn btn-ghost">
-                     <Link>Logout</Link>
-                  </li>
                </ul>
             </div>
 
@@ -56,17 +59,11 @@ const Navbar = () => {
                   tabIndex={0}
                   className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
                >
-                  {menuItems.map((item) => (
+                  {menus.map((item) => (
                      <li key={item.id}>
-                        <Link to={item.link}>{item.menu}</Link>
+                        <Link to={item.link && item.link}>{item.menu}</Link>
                      </li>
                   ))}
-                  <li>
-                     <Link to="/login">Login</Link>
-                  </li>
-                  <li>
-                     <Link>Logout</Link>
-                  </li>
                </ul>
             </div>
          </nav>

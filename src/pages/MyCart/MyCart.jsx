@@ -16,11 +16,11 @@ const MyCart = () => {
       );
    }
    return (
-      <div className="max-w[1000px] w-[95%] mx-auto">
-         <h1 className="text-2xl font-bold my-10">Cart</h1>
-         <div className="flex flex-col w-full justify-start items-start gap-3">
+      <div className="max-w-[700px] w-[95%] mx-auto border my-5 rounded">
+         <h1 className="text-3xl font-bold my-10 text-center">My Cart</h1>
+         <div className="flex flex-col w-full justify-start items-start gap-3 p-5">
             {carts.map((product) => (
-               <div className="flex items-center gap-4 border rounded-lg p-5">
+               <div className="flex items-center w-full gap-4 border rounded-lg p-5 shadow-md">
                   <img src={product.picture} alt="" className="w-[100px]" />
                   <div className="t">
                      <h1 className="text-md font-bold">{product.name}</h1>

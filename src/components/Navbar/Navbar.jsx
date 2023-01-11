@@ -6,13 +6,12 @@ const Navbar = () => {
    const { user, logoutAUser } = useContext(AuthContext);
    const menuItems = [
       { id: 1, menu: "Shop", link: "/" },
-      { id: 2, menu: "MyCart", link: "/myCart" },
-      { id: 3, menu: "Login", link: "/login" },
+      { id: 2, menu: "Login", link: "/login" },
    ];
    const loginMenuItems = [
-      { id: 3, menu: "Admin", link: "/admin" },
       { id: 1, menu: "Shop", link: "/" },
       { id: 2, menu: "MyCart", link: "/myCart" },
+      { id: 3, menu: "Admin", link: "/admin" },
    ];
 
    const menus = user?.uid ? loginMenuItems : menuItems;
@@ -20,7 +19,9 @@ const Navbar = () => {
       <div>
          <nav className="navbar bg-base-100">
             <div className="flex-1">
-               <Link className="btn btn-ghost normal-case text-xl">KaziRahat</Link>
+               <Link to="/" className="btn btn-ghost normal-case text-xl">
+                  KaziRahat
+               </Link>
             </div>
 
             <div className="flex-none gap-2">

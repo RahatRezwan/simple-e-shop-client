@@ -31,13 +31,26 @@ const ProductCard = ({ product }) => {
             {value > 0 ? (
                <>
                   <div className="flex gap-2">
-                     <button onClick={() => setValue(value - 1)}>-</button>
-                     <button>{value}</button>
-                     <button onClick={() => setValue(value + 1)}>+</button>
+                     <button
+                        onClick={() => setValue(value - 1)}
+                        className="font-bold btn btn-sm bg-[#975EFE] hover:bg-[#975EFE] text-white border-none"
+                     >
+                        -
+                     </button>
+                     <button className="text-lg font-bold">{value}</button>
+                     <button
+                        onClick={() => setValue(value + 1)}
+                        className="font-bold btn btn-sm bg-[#975EFE] hover:bg-[#975EFE] text-white border-none"
+                     >
+                        +
+                     </button>
                   </div>
                </>
             ) : (
-               <button onClick={handleAddToCart} className="font-bold">
+               <button
+                  onClick={handleAddToCart}
+                  className="font-bold btn btn-sm bg-[#975EFE] hover:bg-[#975EFE] text-white border-none"
+               >
                   Add To Cart
                </button>
             )}

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import Banner from "../../components/Banner/Banner";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
 
@@ -18,6 +19,8 @@ const Shop = () => {
    }
    return (
       <div className="max-w[1200px] w-[95%] mx-auto">
+         {/* Banner Section */}
+         <Banner />
          <h1 className="text-2xl text-center mb-10">All Products</h1>
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.map((product) => (

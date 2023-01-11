@@ -1,6 +1,10 @@
 import React from "react";
-
 import threedot from "../../assets/icons/threedot.svg";
+import admin from "../../assets/icons/admin.svg";
+import author from "../../assets/icons/author.svg";
+import editor from "../../assets/icons/editor.svg";
+import maintainer from "../../assets/icons/maintainer.svg";
+import subscriber from "../../assets/icons/subscriber.svg";
 
 const DataTable = ({ headers, users, hiddenColumns, handleDeleteUser, setCurrentUser }) => {
    const tableDataStyle = "py-1 pl-5";
@@ -50,7 +54,46 @@ const DataTable = ({ headers, users, hiddenColumns, handleDeleteUser, setCurrent
                            ) : (
                               <>
                                  <td style={{ display: hiddenColumns.includes(header) && "none" }}>
-                                    {user[header]}
+                                    {user[header].toLowerCase() === "admin" ? (
+                                       <p className="flex gap-2 items-center text-[13px]">
+                                          <img src={admin} alt="" />
+                                          Admin
+                                       </p>
+                                    ) : user[header].toLowerCase() === "author" ? (
+                                       <p className="flex gap-2 items-center text-[13px]">
+                                          <img src={author} alt="" />
+                                          Author
+                                       </p>
+                                    ) : user[header].toLowerCase() === "editor" ? (
+                                       <p className="flex gap-2 items-center text-[13px]">
+                                          <img src={editor} alt="" />
+                                          Editor
+                                       </p>
+                                    ) : user[header].toLowerCase() === "subscriber" ? (
+                                       <p className="flex gap-2 items-center text-[13px]">
+                                          <img src={subscriber} alt="" />
+                                          Subscriber
+                                       </p>
+                                    ) : user[header].toLowerCase() === "maintainer" ? (
+                                       <p className="flex gap-2 items-center text-[13px]">
+                                          <img src={maintainer} alt="" />
+                                          Maintainer
+                                       </p>
+                                    ) : user[header].toLowerCase() === "pending" ? (
+                                       <p className="py-[3px] px-[6px] rounded-3xl bg-[#ffe3a0] text-[#FFB400] text-[13px] text-center font-bold">
+                                          Pending
+                                       </p>
+                                    ) : user[header].toLowerCase() === "active" ? (
+                                       <p className="py-[3px] px-[6px] rounded-3xl bg-[#d6eec3] text-[#56CA00] text-[13px] text-center font-bold">
+                                          Active
+                                       </p>
+                                    ) : user[header].toLowerCase() === "inactive" ? (
+                                       <p className="py-[3px] px-[6px] rounded-3xl bg-[#dae0ec] text-[#8A8D93] text-[13px] text-center font-bold">
+                                          Inactive
+                                       </p>
+                                    ) : (
+                                       <p className="text-[14px]"> {user[header]} </p>
+                                    )}
                                  </td>
                               </>
                            )}

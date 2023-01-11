@@ -2,7 +2,7 @@ import React from "react";
 
 import threedot from "../../assets/icons/threedot.svg";
 
-const DataTable = ({ headers, users, hiddenColumns }) => {
+const DataTable = ({ headers, users, hiddenColumns, handleDeleteUser }) => {
    const tableDataStyle = "py-1 pl-5";
    return (
       <div className="overflow-x-auto overflow-y-auto relative">
@@ -70,7 +70,7 @@ const DataTable = ({ headers, users, hiddenColumns }) => {
                                  <button>Edit</button>
                               </li>
                               <li>
-                                 <button>Delete</button>
+                                 <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
                               </li>
                            </ul>
                         </div>

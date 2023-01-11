@@ -1,17 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import exportIcon from "../../assets/icons/exportIcon.svg";
 import DataTable from "../../components/DataTable/DataTable";
 import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
 const AllUsers = () => {
    /* Load data using react/tanStack query */
-   const { data: users = [], isLoading } = useQuery({
+   const {
+      data: users = [],
+      isLoading,
+      refetch,
+   } = useQuery({
       queryKey: ["users"],
       queryFn: () =>
          fetch(`https://e-shop-server-six.vercel.app/users`, {}).then((res) => res.json()),
    });
 
    const [hiddenColumns, setHiddenColumns] = useState([]);
+   const headers = ["User", "Email", "Role", "Plan", "Status"];
 
    const handleColumnToggle = (column) => {
       if (hiddenColumns.includes(column)) {
@@ -21,13 +29,20 @@ const AllUsers = () => {
       }
    };
 
-   console.log(hiddenColumns);
-   const headers = ["User", "Email", "Role", "Plan", "Status"];
+   const handleDeleteUser = (_id) => {
+      axios.delete(`https://e-shop-server-six.vercel.app/deleteUser/${_id}`).then((response) => {
+         if (response.data.deletedCount > 0) {
+            toast.success("Deleted Successfully");
+            refetch();
+         }
+      });
+   };
 
    return (
       <div className="px-5">
          <h1 className="text-4xl text-[#975EFE] mb-5">All Users</h1>
          <div className="bg-white w-full rounded shadow-md">
+            {/* all buttons of all user table */}
             <div className="p-5 flex justify-between">
                <div className="flex gap-6">
                   <button className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md hover:shadow-md">
@@ -74,9 +89,12 @@ const AllUsers = () => {
                      placeholder="Search Invoice"
                      className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md"
                   />
-                  <button className="flex gap-2 items-center text-white bg-[#975EFE] py-[7px] px-[22px] border rounded-md hover:shadow-md">
+                  <Link
+                     to="/admin/addUser"
+                     className="flex gap-2 items-center text-white bg-[#975EFE] py-[7px] px-[22px] border rounded-md hover:shadow-md"
+                  >
                      ADD USER
-                  </button>
+                  </Link>
                </div>
             </div>
 
@@ -88,7 +106,12 @@ const AllUsers = () => {
                   </div>
                </>
             ) : (
-               <DataTable headers={headers} users={users} hiddenColumns={hiddenColumns} />
+               <DataTable
+                  headers={headers}
+                  users={users}
+                  hiddenColumns={hiddenColumns}
+                  handleDeleteUser={handleDeleteUser}
+               />
             )}
          </div>
       </div>

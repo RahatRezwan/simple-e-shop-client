@@ -40,9 +40,14 @@ const Register = () => {
          .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
          .then((imgResponse) => {
             const user = {
-               profilePic: imgResponse.data.data.url,
-               name: fullName,
-               email: data.email,
+               User: {
+                  profilePic: imgResponse.data.data.url,
+                  name: fullName,
+               },
+               Email: data.email,
+               Role: "Subscriber",
+               Plan: "Basic",
+               Status: "Pending",
             };
 
             /* Crete a user */

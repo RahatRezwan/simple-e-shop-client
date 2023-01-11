@@ -5,7 +5,7 @@ import notification from "../../assets/icons/notification.svg";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AdminNavbar = () => {
-   const { logoutAUser } = useContext(AuthContext);
+   const { logoutAUser, user } = useContext(AuthContext);
    return (
       <nav className="flex justify-end items-center gap-4 py-2 px-4 mb-6">
          <img src={darkMode} alt="" />
@@ -13,7 +13,7 @@ const AdminNavbar = () => {
          <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                <div className="w-8 rounded-full">
-                  <img src="https://placeimg.com/80/80/people" alt="" />
+                  <img src={user?.photoURL} alt="" />
                </div>
             </label>
             <ul

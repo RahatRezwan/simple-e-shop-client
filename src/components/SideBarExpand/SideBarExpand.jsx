@@ -31,11 +31,11 @@ const SideBarExpand = () => {
                <li className="cursor-pointer">Users Sub Menu-2</li>
             </div>
          </div>
-         <Link className="collapse-title flex items-center gap-2">
+         <Link to="/admin/addUser" className="collapse-title flex items-center gap-2">
             <img src={addUser} alt="" />
             Add User
          </Link>
-         <Link className="collapse-title flex items-center gap-2">
+         <Link to="/admin/addProduct" className="collapse-title flex items-center gap-2">
             <img src={addProduct} alt="" />
             Add Product
          </Link>

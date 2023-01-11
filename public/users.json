@@ -1,0 +1,18 @@
+[
+   {
+      "_id": "63be192c64e79edc41b2fc64",
+      "User": { "profilePic": "https://i.ibb.co/K7gYd52/admin.jpg", "name": "Kazi Rahat" },
+      "Role": "admin",
+      "Email": "admin.rahat@email.com",
+      "Plan": "Enterprise",
+      "Status": "Active"
+   },
+   {
+      "_id": "63be192c64e79edc41b2fc65",
+      "User": { "profilePic": "https://i.ibb.co/K7gYd52/admin.jpg", "name": "Selim Reza" },
+      "Role": "Maintainer",
+      "Email": "reza@email.com",
+      "Plan": "Enterprise",
+      "Status": "Inactive"
+   }
+]

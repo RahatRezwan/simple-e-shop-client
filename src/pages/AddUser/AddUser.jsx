@@ -30,11 +30,14 @@ const AddUser = () => {
          .post(`https://api.imgbb.com/1/upload?key=${imgHostKey}`, formData)
          .then((imgResponse) => {
             const user = {
-               profilePic: imgResponse.data.data.url,
-               name: fullName,
-               email: data.email,
-               role: data.role,
-               plan: data.plan,
+               User: {
+                  profilePic: imgResponse.data.data.url,
+                  name: fullName,
+               },
+               Email: data.email,
+               Role: data.role,
+               Plan: data.plan,
+               Status: "Pending",
             };
 
             axios

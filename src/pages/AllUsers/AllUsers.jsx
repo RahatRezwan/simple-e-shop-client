@@ -6,6 +6,9 @@ import { toast } from "react-hot-toast";
 import exportIcon from "../../assets/icons/exportIcon.svg";
 import DataTable from "../../components/DataTable/DataTable";
 import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
 const AllUsers = () => {
    /* Load data using react/tanStack query */
    const {
@@ -17,6 +20,29 @@ const AllUsers = () => {
       queryFn: () =>
          fetch(`https://e-shop-server-six.vercel.app/users`, {}).then((res) => res.json()),
    });
+
+   const userData = users.map(({ User: { name }, Email, Role, Plan }) => ({
+      name,
+      Email,
+      Role,
+      Plan,
+   }));
+   const column = [
+      { title: "Name", dataKey: "name" },
+      { title: "Email", dataKey: "Email" },
+      { title: "Role", dataKey: "Role" },
+      { title: "Plan", dataKey: "Plan" },
+   ];
+
+   function exportPdf() {
+      const doc = new jsPDF();
+      doc.text("All Users Data", 10, 10);
+      doc.autoTable({
+         head: [column.map((col) => col.title)],
+         body: userData.map((row) => [row.name, row.Email, row.Role, row.Plan]),
+      });
+      doc.save("userData.pdf");
+   }
 
    const [hiddenColumns, setHiddenColumns] = useState([]);
    const headers = ["User", "Email", "Role", "Plan", "Status"];
@@ -45,7 +71,10 @@ const AllUsers = () => {
             {/* all buttons of all user table */}
             <div className="p-5 flex justify-between">
                <div className="flex gap-6">
-                  <button className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md hover:shadow-md">
+                  <button
+                     onClick={exportPdf}
+                     className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md hover:shadow-md"
+                  >
                      <img src={exportIcon} alt="" />
                      PDF
                   </button>

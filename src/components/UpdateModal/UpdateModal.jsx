@@ -27,7 +27,7 @@ const UpdateModal = ({ user, setCurrentUser, refetch }) => {
       };
 
       axios
-         .post(`http://localhost:5000/updateUser/${user._id}`, updatedUser)
+         .post(`https://e-shop-server-six.vercel.app/updateUser/${user._id}`, updatedUser)
          .then((response) => {
             if (response.data.modifiedCount > 0) {
                setLoader(false);

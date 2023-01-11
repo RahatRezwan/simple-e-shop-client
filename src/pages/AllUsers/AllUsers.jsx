@@ -6,10 +6,12 @@ import { toast } from "react-hot-toast";
 import exportIcon from "../../assets/icons/exportIcon.svg";
 import DataTable from "../../components/DataTable/DataTable";
 import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
+import UpdateModal from "../../components/UpdateModal/UpdateModal";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 const AllUsers = () => {
+   const [currentUser, setCurrentUser] = useState(null);
    /* Load data using react/tanStack query */
    const {
       data: users = [],
@@ -43,6 +45,13 @@ const AllUsers = () => {
       });
       doc.save("userData.pdf");
    }
+
+   /* const exportToExcel = () => {
+      const ws = XLSX.utils.json_to_sheet(userData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, "User.xlsx");
+   }; */
 
    const [hiddenColumns, setHiddenColumns] = useState([]);
    const headers = ["User", "Email", "Role", "Plan", "Status"];
@@ -82,7 +91,10 @@ const AllUsers = () => {
                      <img src={exportIcon} alt="" />
                      EXCEL
                   </button>
-                  <button className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md hover:shadow-md">
+                  <button
+                     onClick={exportPdf}
+                     className="flex gap-2 items-center py-[7px] px-[22px] border rounded-md hover:shadow-md"
+                  >
                      <img src={exportIcon} alt="" />
                      PRINT
                   </button>
@@ -140,9 +152,14 @@ const AllUsers = () => {
                   users={users}
                   hiddenColumns={hiddenColumns}
                   handleDeleteUser={handleDeleteUser}
+                  setCurrentUser={setCurrentUser}
                />
             )}
          </div>
+
+         {currentUser && (
+            <UpdateModal user={currentUser} setCurrentUser={setCurrentUser} refetch={refetch} />
+         )}
       </div>
    );
 };
